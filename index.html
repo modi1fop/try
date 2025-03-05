@@ -90,6 +90,10 @@
             ctx.arc(food.x * gridSize + gridSize / 2, food.y * gridSize + gridSize / 2, gridSize / 2, 0, Math.PI * 2);
             ctx.fill();
 
+            // Draw food stem
+            ctx.fillStyle = 'brown';
+            ctx.fillRect(food.x * gridSize + gridSize / 2 - 2, food.y * gridSize, 4, gridSize / 2);
+
             // Draw snake
             ctx.fillStyle = 'green';
             ctx.shadowColor = 'rgba(0, 255, 0, 0.5)';
@@ -142,7 +146,7 @@
             if (direction.x === 0) direction = { x: 1, y: 0 };
         });
 
-        setInterval(gameLoop, 300);
+        setInterval(gameLoop, 400);
     </script>
 </body>
 </html>
