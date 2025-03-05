@@ -111,13 +111,19 @@
             ctx.fillStyle = 'brown';
             ctx.fillRect(food.x * gridSize + gridSize / 2 - 2, food.y * gridSize, 4, gridSize / 2);
 
-            // Draw snake
+            // Draw snake with texture
             ctx.shadowColor = 'rgba(0, 255, 0, 0.5)';
             ctx.shadowBlur = 10;
             snake.forEach(segment => {
                 ctx.beginPath();
                 ctx.arc(segment.x * gridSize + gridSize / 2, segment.y * gridSize + gridSize / 2, gridSize / 2, 0, Math.PI * 2);
                 ctx.fillStyle = 'green';
+                ctx.fill();
+
+                // Add texture to the snake
+                ctx.fillStyle = 'rgba(0, 150, 0, 0.5)';
+                ctx.beginPath();
+                ctx.arc(segment.x * gridSize + gridSize / 2, segment.y * gridSize + gridSize / 2, gridSize / 2 - 2, 0, Math.PI * 2);
                 ctx.fill();
             });
         }
