@@ -77,64 +77,49 @@
         let direction = { x: 0, y: 0 };
         let food = { x: 15, y: 15 };
         let score = 0;
-        let frameCount = 0;
-        const framesPerMove = 5;
+
+        const snakeImage = new Image();
+        snakeImage.src = 'snake.png'; // Замените на путь к вашему изображению змейки
+        const foodImage = new Image();
+        foodImage.src = 'apple.png'; // Замените на путь к вашему изображению яблока
+
+        snakeImage.onload = () => {
+            gameLoop();
+        };
 
         function gameLoop() {
             update();
             draw();
+            setTimeout(gameLoop, 300); // 300 ms
         }
 
         function update() {
-            if (frameCount % framesPerMove === 0) {
-                const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+            const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
 
-                if (head.x === food.x && head.y === food.y) {
-                    score++;
-                    scoreElement.textContent = score;
-                    food = { x: Math.floor(Math.random() * tileCount), y: Math.floor(Math.random() * tileCount) };
-                } else {
-                    snake.pop();
-                }
-
-                snake.unshift(head);
-
-                if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount || snake.slice(1).some(segment => segment.x === head.x && segment.y === head.y)) {
-                    resetGame();
-                }
+            if (head.x === food.x && head.y === food.y) {
+                score++;
+                scoreElement.textContent = score;
+                food = { x: Math.floor(Math.random() * tileCount), y: Math.floor(Math.random() * tileCount) };
+            } else {
+                snake.pop();
             }
-            frameCount++;
+
+            snake.unshift(head);
+
+            if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount || snake.slice(1).some(segment => segment.x === head.x && segment.y === head.y)) {
+                resetGame();
+            }
         }
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Draw food
-            ctx.shadowColor = 'rgba(255, 0, 0, 0.5)';
-            ctx.shadowBlur = 10;
-            ctx.beginPath();
-            ctx.arc(food.x * gridSize + gridSize / 2, food.y * gridSize + gridSize / 2, gridSize / 2, 0, Math.PI * 2);
-            ctx.fillStyle = 'red';
-            ctx.fill();
+            ctx.drawImage(foodImage, food.x * gridSize, food.y * gridSize, gridSize, gridSize);
 
-            // Draw food stem
-            ctx.fillStyle = 'brown';
-            ctx.fillRect(food.x * gridSize + gridSize / 2 - 2, food.y * gridSize, 4, gridSize / 2);
-
-            // Draw snake with texture
-            ctx.shadowColor = 'rgba(0, 255, 0, 0.5)';
-            ctx.shadowBlur = 10;
+            // Draw snake
             snake.forEach(segment => {
-                ctx.beginPath();
-                ctx.arc(segment.x * gridSize + gridSize / 2, segment.y * gridSize + gridSize / 2, gridSize / 2, 0, Math.PI * 2);
-                ctx.fillStyle = 'green';
-                ctx.fill();
-
-                // Add texture to the snake
-                ctx.fillStyle = 'rgba(0, 150, 0, 0.5)';
-                ctx.beginPath();
-                ctx.arc(segment.x * gridSize + gridSize / 2, segment.y * gridSize + gridSize / 2, gridSize / 2 - 2, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.drawImage(snakeImage, segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
             });
         }
 
@@ -144,7 +129,6 @@
             food = { x: 15, y: 15 };
             score = 0;
             scoreElement.textContent = score;
-            frameCount = 0;
         }
 
         document.addEventListener('keydown', e => {
@@ -179,8 +163,6 @@
         document.getElementById('right').addEventListener('click', () => {
             if (direction.x === 0) direction = { x: 1, y: 0 };
         });
-
-        setInterval(gameLoop, 10000 / 120); // 60 FPS
     </script>
 </body>
 </html>
