@@ -11,12 +11,14 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #8DC63C, #006600);
+            background-color: #000;
+            color: #fff;
             font-family: 'Arial', sans-serif;
         }
         canvas {
-            border: 2px solid #333;
+            border: 2px solid #4CAF50;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #4CAF50;
         }
         .controls {
             display: flex;
@@ -41,11 +43,11 @@
         .score {
             margin-top: 20px;
             font-size: 24px;
-            color: #333;
-            background: rgba(255, 255, 255, 0.8);
+            color: #fff;
+            background: rgba(0, 0, 0, 0.8);
             padding: 10px 20px;
             border-radius: 5px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
@@ -98,11 +100,11 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Draw food
-            ctx.fillStyle = 'red';
             ctx.shadowColor = 'rgba(255, 0, 0, 0.5)';
             ctx.shadowBlur = 10;
             ctx.beginPath();
             ctx.arc(food.x * gridSize + gridSize / 2, food.y * gridSize + gridSize / 2, gridSize / 2, 0, Math.PI * 2);
+            ctx.fillStyle = 'red';
             ctx.fill();
 
             // Draw food stem
@@ -110,12 +112,12 @@
             ctx.fillRect(food.x * gridSize + gridSize / 2 - 2, food.y * gridSize, 4, gridSize / 2);
 
             // Draw snake
-            ctx.fillStyle = 'green';
             ctx.shadowColor = 'rgba(0, 255, 0, 0.5)';
             ctx.shadowBlur = 10;
             snake.forEach(segment => {
                 ctx.beginPath();
                 ctx.arc(segment.x * gridSize + gridSize / 2, segment.y * gridSize + gridSize / 2, gridSize / 2, 0, Math.PI * 2);
+                ctx.fillStyle = 'green';
                 ctx.fill();
             });
         }
