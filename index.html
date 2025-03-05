@@ -11,26 +11,41 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background: linear-gradient(135deg, #8DC63C, #006600);
+            font-family: 'Arial', sans-serif;
         }
         canvas {
-            border: 1px solid #000;
+            border: 2px solid #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         .controls {
             display: flex;
             margin-top: 20px;
         }
         .controls button {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             font-size: 24px;
-            margin: 5px;
+            margin: 10px;
             cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+        }
+        .controls button:hover {
+            background-color: #45a049;
         }
         .score {
             margin-top: 20px;
             font-size: 24px;
             color: #333;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -146,7 +161,7 @@
             if (direction.x === 0) direction = { x: 1, y: 0 };
         });
 
-        setInterval(gameLoop, 400);
+        setInterval(gameLoop, 300);
     </script>
 </body>
 </html>
