@@ -7,7 +7,7 @@
     <style>
         body {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             height: 100vh;
             margin: 0;
@@ -16,10 +16,27 @@
         canvas {
             border: 1px solid #000;
         }
+        .controls {
+            display: flex;
+            margin-top: 20px;
+        }
+        .controls button {
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            margin: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <div class="controls">
+        <button id="up">↑</button>
+        <button id="left">←</button>
+        <button id="down">↓</button>
+        <button id="right">→</button>
+    </div>
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
@@ -86,6 +103,22 @@
                     if (direction.x === 0) direction = { x: 1, y: 0 };
                     break;
             }
+        });
+
+        document.getElementById('up').addEventListener('click', () => {
+            if (direction.y === 0) direction = { x: 0, y: -1 };
+        });
+
+        document.getElementById('down').addEventListener('click', () => {
+            if (direction.y === 0) direction = { x: 0, y: 1 };
+        });
+
+        document.getElementById('left').addEventListener('click', () => {
+            if (direction.x === 0) direction = { x: -1, y: 0 };
+        });
+
+        document.getElementById('right').addEventListener('click', () => {
+            if (direction.x === 0) direction = { x: 1, y: 0 };
         });
 
         setInterval(gameLoop, 100);
