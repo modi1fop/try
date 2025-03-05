@@ -78,23 +78,13 @@
         let food = { x: 15, y: 15 };
         let score = 0;
 
-        const snakeHeadImage = new Image();
-        snakeHeadImage.src = 'snake_head.png'; // Замените на путь к вашему изображению головы змейки
-        const snakeBodyImage = new Image();
-        snakeBodyImage.src = 'snake_body.png'; // Замените на путь к вашему изображению тела змейки
-        const snakeTailImage = new Image();
-        snakeTailImage.src = 'snake_tail.png'; // Замените на путь к вашему изображению хвоста змейки
+        const snakeImage = new Image();
+        snakeImage.src = 'snake.png'; // Замените на путь к вашему изображению змейки
         const foodImage = new Image();
         foodImage.src = 'apple.png'; // Замените на путь к вашему изображению яблока
 
-        snakeHeadImage.onload = () => {
-            snakeBodyImage.onload = () => {
-                snakeTailImage.onload = () => {
-                    foodImage.onload = () => {
-                        gameLoop();
-                    };
-                };
-            };
+        snakeImage.onload = () => {
+            gameLoop();
         };
 
         function gameLoop() {
@@ -128,14 +118,8 @@
             ctx.drawImage(foodImage, food.x * gridSize, food.y * gridSize, gridSize, gridSize);
 
             // Draw snake
-            snake.forEach((segment, index) => {
-                if (index === 0) {
-                    ctx.drawImage(snakeHeadImage, segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
-                } else if (index === snake.length - 1) {
-                    ctx.drawImage(snakeTailImage, segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
-                } else {
-                    ctx.drawImage(snakeBodyImage, segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
-                }
+            snake.forEach(segment => {
+                ctx.drawImage(snakeImage, segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
             });
         }
 
