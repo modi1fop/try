@@ -78,19 +78,9 @@
         let food = { x: 15, y: 15 };
         let score = 0;
 
-        const snakeImage = new Image();
-        snakeImage.src = 'snake.png'; // Замените на путь к вашему изображению змейки
-        const foodImage = new Image();
-        foodImage.src = 'apple.png'; // Замените на путь к вашему изображению яблока
-
-        snakeImage.onload = () => {
-            gameLoop();
-        };
-
         function gameLoop() {
             update();
             draw();
-            setTimeout(gameLoop, 300); // 300 ms
         }
 
         function update() {
@@ -115,11 +105,31 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Draw food
-            ctx.drawImage(foodImage, food.x * gridSize, food.y * gridSize, gridSize, gridSize);
+            ctx.shadowColor = 'rgba(255, 0, 0, 0.5)';
+            ctx.shadowBlur = 10;
+            ctx.beginPath();
+            ctx.arc(food.x * gridSize + gridSize / 2, food.y * gridSize + gridSize / 2, gridSize / 2, 0, Math.PI * 2);
+            ctx.fillStyle = 'red';
+            ctx.fill();
 
-            // Draw snake
+            // Draw food stem
+            ctx.fillStyle = 'brown';
+            ctx.fillRect(food.x * gridSize + gridSize / 2 - 2, food.y * gridSize, 4, gridSize / 2);
+
+            // Draw snake with texture
+            ctx.shadowColor = 'rgba(0, 255, 0, 0.5)';
+            ctx.shadowBlur = 10;
             snake.forEach(segment => {
-                ctx.drawImage(snakeImage, segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
+                ctx.beginPath();
+                ctx.arc(segment.x * gridSize + gridSize / 2, segment.y * gridSize + gridSize / 2, gridSize / 2, 0, Math.PI * 2);
+                ctx.fillStyle = 'green';
+                ctx.fill();
+
+                // Add texture to the snake
+                ctx.fillStyle = 'rgba(0, 150, 0, 0.5)';
+                ctx.beginPath();
+                ctx.arc(segment.x * gridSize + gridSize / 2, segment.y * gridSize + gridSize / 2, gridSize / 2 - 2, 0, Math.PI * 2);
+                ctx.fill();
             });
         }
 
@@ -163,6 +173,8 @@
         document.getElementById('right').addEventListener('click', () => {
             if (direction.x === 0) direction = { x: 1, y: 0 };
         });
+
+        setInterval(gameLoop, 300);
     </script>
 </body>
 </html>
