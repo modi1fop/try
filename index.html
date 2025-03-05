@@ -77,6 +77,8 @@
         let direction = { x: 0, y: 0 };
         let food = { x: 15, y: 15 };
         let score = 0;
+        let frameCount = 0;
+        const framesPerMove = 5;
 
         function gameLoop() {
             update();
@@ -84,21 +86,24 @@
         }
 
         function update() {
-            const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+            if (frameCount % framesPerMove === 0) {
+                const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
 
-            if (head.x === food.x && head.y === food.y) {
-                score++;
-                scoreElement.textContent = score;
-                food = { x: Math.floor(Math.random() * tileCount), y: Math.floor(Math.random() * tileCount) };
-            } else {
-                snake.pop();
+                if (head.x === food.x && head.y === food.y) {
+                    score++;
+                    scoreElement.textContent = score;
+                    food = { x: Math.floor(Math.random() * tileCount), y: Math.floor(Math.random() * tileCount) };
+                } else {
+                    snake.pop();
+                }
+
+                snake.unshift(head);
+
+                if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount || snake.slice(1).some(segment => segment.x === head.x && segment.y === head.y)) {
+                    resetGame();
+                }
             }
-
-            snake.unshift(head);
-
-            if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount || snake.slice(1).some(segment => segment.x === head.x && segment.y === head.y)) {
-                resetGame();
-            }
+            frameCount++;
         }
 
         function draw() {
@@ -139,6 +144,7 @@
             food = { x: 15, y: 15 };
             score = 0;
             scoreElement.textContent = score;
+            frameCount = 0;
         }
 
         document.addEventListener('keydown', e => {
@@ -174,7 +180,7 @@
             if (direction.x === 0) direction = { x: 1, y: 0 };
         });
 
-        setInterval(gameLoop, 300);
+        setInterval(gameLoop, 1000 / 60); // 60 FPS
     </script>
 </body>
 </html>
